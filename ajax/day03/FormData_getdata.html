@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>使用FormData快速获取表单数据</title>
+</head>
+<body>
+<form id="form1">
+    <!--autocomplete="off"阻止自动填充行为-->
+    <input type="text" name="uname" autocomplete="off">
+    <input type="password" name="upwd">
+    <button type="submit">提交</button>
+</form>
+
+
+<script>
+    //获取form表单元素
+    var form = document.querySelector('#form1')
+    form.addEventListener('submit', function (e) {
+        //阻止表单的默认提交行为
+        e.preventDefault()
+        //创建FormData，快速获取form表单中数据
+        //FormData(form)直接将表单中的数据放到了fd里面，不用再一个个的append
+        var fd = new FormData(form)
+
+        var xhr = new XMLHttpRequest()
+        xhr.open('POST', 'http://www.liulongbin.top:3006/api/formdata')
+        xhr.send(fd)
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log(JSON.parse(xhr.responseText))
+            }
+        }
+    })
+</script>
+</body>
+</html>

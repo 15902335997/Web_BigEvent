@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>自己实现一个简单的JSONP</title>
+</head>
+<body>
+
+<script>
+    function success(data){
+        console.log('获取到了data数据')
+        console.log(data)
+    }
+</script>
+
+<script src="http://www.liulongbin.top:3006/api/jsonp?callback=success&name=ls&age=30"></script>
+
+
+</body>
+</html>

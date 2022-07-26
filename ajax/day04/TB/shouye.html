@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>首页</title>
+    <!-- 导入页面的基本样式 -->
+    <link rel="stylesheet" href="css/search.css"/>
+    <!-- 导入 jQuery -->
+    <script src="lib/jquery.js"></script>
+    <!-- 导入模板引擎 -->
+    <script src="lib/template-web.js"></script>
+</head>
+<body>
+<div class="container">
+    <!-- Logo -->
+    <img src="images/taobao_logo.png" alt="" class="logo"/>
+
+    <div class="box">
+        <!-- tab 栏 -->
+        <div class="tabs">
+            <div class="tab-active">宝贝</div>
+            <div>店铺</div>
+        </div>
+        <!-- 搜索区域（搜索框和搜索按钮） -->
+        <div class="search-box">
+            <input id="ipt" type="text" class="ipt" placeholder="请输入要搜索的内容"/>
+            <button class="btnSearch">
+                搜索
+            </button>
+        </div>
+        <!-- 搜索建议列表 -->
+        <div id="suggest-list"></div>
+    </div>
+</div>
+<!--模板结构-->
+<script type="text/html" id="tpl-suggestList">
+    {{each result}}
+    <!--搜索建议项-->
+    <div class="suggest-item">{{$value[0]}}</div>
+    {{/each}}
+</script>
+
+<script>
+    $(function () {
+        //防抖
+        var timer = null//定义延时器的id
+        //定义防抖函数
+        function debounceSearch(kw) {
+            timer = setTimeout(function () {
+                //请求数据接口
+                getSuggestList(kw)
+            }, 500)
+        }
+
+        //为输入框绑定keyup事件
+        $('#ipt').on('keyup', function () {
+            //当用户触发新的keyup事件，就将原来的timer清空
+            clearTimeout()
+            //获取用户输入的内容，并且去除两端空格
+            var keywrods = $(this).val().trim()
+            //如果用户没有输入内容就清空搜索建议框的内容并且将其隐藏
+            if (keywrods.length <= 0) {
+                return $('#suggest-list').empty().hide()
+            }
+            //判断缓存中是否有数据
+            if (cacheObj[keywrods]) {
+                //如果有缓存，就不再调用debounceSearch(keywrods)，而是直接用缓存的数据
+                return renderSuggestList(cacheObj[keywrods])
+            }
+            //将用户输入的内容给getSuggestList函数，从而获得搜索的建议
+            // getSuggestList(keywrods)
+            debounceSearch(keywrods)
+        })
+
+        //封装getSuggestList函数，用来放获取搜索建议列表
+        function getSuggestList(kw) {
+            $.ajax({
+                url: 'http://suggest.taobao.com/sug?q=' + kw,
+                dataType: 'jsonp',
+                success: function (res) {
+                    // console.log(res)
+                    renderSuggestList(res)
+                }
+            })
+        }
+
+        //定义渲染搜索建议框的UI结构函数
+        function renderSuggestList(res) {
+            //如果没有要渲染的数据，那就将搜索建议框清空并且隐藏
+            if (res.result.length <= 0) {
+                return $('#suggest-list').empty().hide()
+            }
+            //如果有要渲染的数据，将其数据获取过来显示
+            var htmlStr = template('tpl-suggestList', res)
+            $('#suggest-list').html(htmlStr).show()
+        }
+
+        //缓存搜索的建议列表  可以提高搜索的效率
+        // 定义全局缓存对象
+        var cacheObj = {}
+        //1.获取用户输入的内容，当做键
+        var k = $('#ipt').val().trim()
+        //2.需要将数据作为值，进行缓存
+        cacheObj[k] = res
+
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>直接使用axios发起请求</title>
+    <script src="axios.js"></script>
+</head>
+<body>
+<button id="btn3">使用axios发起get请求</button>
+<button id="btn4">使用axios发起post请求</button>
+<script>
+    document.querySelector('#btn3').addEventListener('click', function () {
+        var url = 'http://www.liulongbin.top:3006/api/get'
+        var paramsData = {name: '钢铁侠', age: 20}
+        axios({
+            method: 'GET',
+            url: url,
+            params: paramsData,
+        }).then(function (res) {
+            console.log(res.data)
+        })
+    })
+
+    document.querySelector('#btn4').addEventListener('click', function () {
+        axios({
+            method: 'POST',
+            url: 'http://www.liulongbin.top:3006/api/post',
+            data: {
+                name: '娃哈哈',
+                age: 18,
+                gender: '女'
+            }
+        }).then(function (res) {
+            console.log(res.data)
+        })
+    })
+
+</script>
+</body>
+</html>

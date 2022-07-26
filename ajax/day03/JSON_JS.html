@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>JSON和JS之间的转换</title>
+</head>
+<body>
+<script>
+    var jsonstr = '{"a":"Hello","b":"World"}'
+    //JSON.parse()函数可以将JSON对象转换成JS格式的对象
+    var obj = JSON.parse(jsonstr)
+    console.log(obj)
+    var jsstr={a:'Hello',b:'World',c:false}
+    var obj1=JSON.stringify(jsstr)
+    console.log(obj1)
+</script>
+</body>
+</html>

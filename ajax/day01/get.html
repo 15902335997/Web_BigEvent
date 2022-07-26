@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>使用get发起不带参数的请求</title>
+    <script src="jQuery.min.js"></script>
+</head>
+<body>
+<button id="btn">发起get不带参数的请求</button>
+<button id="btn1">发起get带参数的请求</button>
+<script>
+    $(function (){
+        $('#btn').on('click',function (){
+            $.get('http://www.liulongbin.top:3006/api/getbooks',function (res){
+                console.log(res)
+            })
+        })
+    })
+    //带参数
+    $(function (){
+        $('#btn1').on('click',function (){
+            $.get('http://www.liulongbin.top:3006/api/getbooks',{id:1},function (res){
+                console.log(res)
+            })
+        })
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>设置HTTP请求时限</title>
+</head>
+<body>
+<script>
+    var xhr = new XMLHttpRequest()
+
+    xhr.timeout = 30
+    xhr.ontimeout = function () {
+        alert('请求超时了')
+    }
+
+
+    xhr.open('GET', 'http://www.liulongbin.top:3006/api/getbooks')
+    xhr.send()
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            //获取服务器响应的数据
+            console.log(xhr.responseText)
+        }
+    }
+</script>
+</body>
+</html>

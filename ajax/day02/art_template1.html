@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>使用模板</title>
+    <script src="js/jQuery.min.js"></script>
+    <!--    1.导入模板引擎-->
+    <script src="js/template-web.js"></script>
+</head>
+<body>
+<!--使用模板方式-->
+<div id="container"></div>
+<!--3.定义模板，必须定义到script标签中-->
+<!--  {{}}是占位符，占用了一个位置  -->
+<script type="text/html" id="tpl-user">
+    <h1>{{name}}-------{{age}}
+        ------{{@ test}}</h1>
+
+    <div>
+        <!--条件输出-->
+        {{ if flag===0 }}
+        flag的值是0
+        {{ else if flag===1 }}
+        flag的值是1
+        {{/if}}
+    </div>
+    <!--循环输出-->
+    <ul>
+        {{each hobby}}
+        <li>索引是:{{$index}},循环项是：{{$value}}</li>
+        {{/each}}
+    </ul>
+    <!--过滤器-->
+        <h3>注册时间：{{regTime | dateFormat}}</h3>
+</script>
+
+<script>
+    // 使用模板引擎渲染UI页面
+    // 2.定义需要渲染的数据
+    // 定义处理时间的过滤器
+    template.defaults.imports.dateFormat = function (date) {
+        var y=date.getFullYear()
+        var m=date.getMonth()+1
+        var d=date.getDate()
+
+        return y+'-'+m+'-'+d
+    }
+
+    var data = {
+        name: 'zs',
+        age: 21,
+        test: '<h3>原文输出</h3>',
+        flag: 0,
+        hobby: ['吃饭', '睡觉', '写代码'],
+        regTime:new Date()
+    }
+    //4.调用template函数
+    var htmlstr = template('tpl-user', data)
+    console.log(htmlstr)
+    //5.渲染UI
+    $('#container').html(htmlstr)</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>使用模板引擎渲染UI结构</title>
+    <script src="js/jQuery.min.js"></script>
+    <!--    1.导入模板引擎-->
+    <script src="js/template-web.js"></script>
+</head>
+<body>
+<!--传统方式-->
+<div id="title"></div>
+<div>姓名：<span id="name"></span></div>
+<div>年龄：<span id="age"></span></div>
+<div>会员：<span id="isvip"></span></div>
+<div>注册时间：<span id="regTime"></span></div>
+<div>爱好 ：
+    <ul id="hobby">
+        <li>爱好1</li>
+        <li>爱好2</li>
+    </ul>
+</div>
+
+<script>
+    //传统方式渲染UI页面
+    var data = {
+        title: '<h3>用户信息</h3>',
+        name: 'zs',
+        age: 20,
+        isVip: true,
+        regTime: new Date(),
+        hobby: ['吃饭', '睡觉', '打豆豆']
+    }
+    $(function () {
+        $('#name').html(data.name)
+        $('#title').html(data.title)
+        $('#age').html(data.age)
+        $('#isvip').html(data.isVip)
+        $('#regTime').html(data.regTime)
+
+        var rows = []
+        $.each(data.hobby, function (i, item) {
+            rows.push('<li>' + item + '</li>')
+        })
+        $('#hobby').html(rows.join(''))
+    })
+</script>
+</body>
+</html>
