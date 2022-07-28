@@ -56,7 +56,7 @@ function renderAvatar(user) {
     $('#welcome').html('欢迎&nbsp;&nbsp;' + name)
     //按需渲染用户的头像
     if (user.user_pic !== null) {
-        //用户没有图片头像，渲染图片头像
+        //用户有图片头像，渲染图片头像
         $('.layui-nav-img').attr('src', user.user_pic).show()
         $('.text-avatar').hide()
     } else {
